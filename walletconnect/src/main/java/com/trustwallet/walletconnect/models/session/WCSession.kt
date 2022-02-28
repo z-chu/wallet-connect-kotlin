@@ -1,13 +1,16 @@
 package com.trustwallet.walletconnect.models.session
 
 import android.net.Uri
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-data class WCSession (
+@Parcelize
+data class WCSession(
     val topic: String,
     val version: String,
     val bridge: String,
     val key: String
-) {
+) : Parcelable {
     fun toUri(): String = "wc:${topic}@${version}?bridge=${bridge}&key=${key}"
 
     companion object {

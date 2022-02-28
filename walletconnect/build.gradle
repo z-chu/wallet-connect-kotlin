@@ -1,16 +1,17 @@
 apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-parcelize'
 
-group='com.github.TrustWallet'
+group = 'com.github.TrustWallet'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 31
 
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 

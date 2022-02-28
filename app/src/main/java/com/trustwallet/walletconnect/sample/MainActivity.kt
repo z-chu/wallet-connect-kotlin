@@ -46,11 +46,9 @@ class MainActivity : AppCompatActivity() {
         wcClient.onFailure = { t -> onFailure(t) }
         wcClient.onSessionRequest = { _, peer -> onSessionRequest(peer) }
         wcClient.onGetAccounts = { id -> onGetAccounts(id) }
-
         wcClient.onEthSign = { id, message -> onEthSign(id, message) }
         wcClient.onEthSignTransaction = { id, transaction -> onEthTransaction(id, transaction) }
         wcClient.onEthSendTransaction = { id, transaction -> onEthTransaction(id, transaction, send = true) }
-
         wcClient.onBnbTrade = { id, order -> onBnbTrade(id, order) }
         wcClient.onBnbCancel = { id, order -> onBnbCancel(id, order) }
         wcClient.onBnbTransfer = { id, order -> onBnbTransfer(id, order) }
