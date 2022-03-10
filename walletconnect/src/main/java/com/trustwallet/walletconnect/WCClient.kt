@@ -60,7 +60,7 @@ open class WCClient (
 
     var remotePeerId: String? = null
         private set
-    
+
     var chainId: String? = null
         private set
 
@@ -72,6 +72,7 @@ open class WCClient (
     var onFailure: (Throwable) -> Unit = { _ -> Unit}
     var onDisconnect: (code: Int, reason: String) -> Unit = { _, _ -> Unit }
     var onSessionRequest: (id: Long, peer: WCPeerMeta) -> Unit = { _, _ -> Unit }
+    var onSessionUpdate: (id: Long, update: WCSessionUpdate) -> Unit = { _, _ -> Unit }
     var onEthSign: (id: Long, message: WCEthereumSignMessage) -> Unit = { _, _ -> Unit }
     var onEthSignTransaction: (id: Long, transaction: WCEthereumTransaction) -> Unit = { _, _ -> Unit }
     var onEthSendTransaction: (id: Long, transaction: WCEthereumTransaction) -> Unit = { _, _ -> Unit }
@@ -112,7 +113,6 @@ open class WCClient (
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-        resetState()
         onFailure(t)
 
         listeners.forEach { it.onFailure(webSocket, t, response) }
@@ -271,6 +271,7 @@ open class WCClient (
                 if (!param.approved) {
                     killSession()
                 }
+                onSessionUpdate(request.id, param)
             }
             WCMethod.ETH_SIGN -> {
                 val params = gson.fromJson<List<String>>(request.params)
@@ -334,7 +335,7 @@ open class WCClient (
             }
         }
     }
-    
+
     private fun subscribe(topic: String): Boolean {
         val message = WCSocketMessage(
             topic = topic,
